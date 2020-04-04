@@ -77,9 +77,9 @@
                                             <td th:text="${user.active}"></td>
                                             <td th:text="${user.role.role}"></td>
 
-                                            <td><a th:href="@{/users/update(id=${user.id})}"><span
+                                            <td><a th:href="@{/admin/users/update(id=${user.id})}"><span
                                                     class="glyphicon glyphicon-pencil"></span> EDIT</a></td>
-                                            <td><a th:href="@{/users/delete(id=${user.id})}"><span
+                                            <td><a th:href="@{/admin/users/delete(id=${user.id})}"><span
                                                     class="glyphicon glyphicon-trash"></span> DELETE</a></td>
                                         </tr>
                                         </tbody>
