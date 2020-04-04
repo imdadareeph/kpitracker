@@ -155,16 +155,31 @@
                                 <legend>User Task Assignment</legend>
                                 <!-- Text input-->
                                 <input type="hidden" name="id" th:field="${user_task.id}" />
+
+                                <div th:if="${control == 'ADMIN'}">
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">User</label>
                                     <div class="col-md-4 text-left">
                                         <select class="selectpicker" data-live-search="true"
                                                 title="Select User" name="user" tabindex="-98">
 
-                                            <option th:each="user: ${users}" th:value="${user.id}"
+                                            <option th:each="user: ${users}" th:if="${user.name==auth.name}" th:value="${user.id}"
                                                     th:text="${user.name}"></option>
                                         </select>
                                     </div>
+                                </div>
+                                </div>
+                                <div th:if="${control == 'USER'}">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">User Name</label>
+                                        <div class="col-md-3 text-left">
+                                            <input type="hidden" th:each="user: ${users}" th:if="${user.name==auth.name}" th:value="${user.id}"
+                                                   name="user" class="form-control" /> <input type="text" th:each="user: ${users}" th:if="${user.name==auth.name}" th:value="${user.name}"
+                                                                                                     name="user"
+                                                                                                     class="form-control" disabled />
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="form-group">
