@@ -67,7 +67,7 @@
                         All User Types</a></li>
                 </ul>
             </li>
-            <li th:if="${control == 'ADMIN'}" class="treeview">
+            <li th:if="${control == 'ADMIN' || control == 'USER'}" class="treeview">
                 <a href="#">
                     <i class="fa fa-files-o text-purple"></i>
                     <span>Tasks</span>
@@ -80,7 +80,7 @@
                     <li><a th:href="@{/admin/tasks/all}"><i class="fa fa-file-text"></i> All Tasks</a></li>
                 </ul>
             </li>
-            <li th:if="${control == 'ADMIN'}" class="treeview">
+            <li th:if="${control == 'ADMIN' || control == 'USER'}" class="treeview">
                 <a href="#">
                     <i class="fa fa-laptop text-red "></i>
                     <span>User-Task Management</span>
