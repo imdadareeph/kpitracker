@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 public class UserController {
 
 
@@ -46,7 +46,7 @@ public class UserController {
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView saveUser(@Valid User user, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/users/all");
+		ModelAndView modelAndView = new ModelAndView("redirect:/admin/users/all");
 		user.setPassword(userService.findUser(user.getId()).getPassword());
 		user.setActive(userService.findUser(user.getId()).getActive());
 		modelAndView.addObject("auth", getUser());
@@ -70,7 +70,7 @@ public class UserController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView deleteUser(@RequestParam int id) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/users/all");
+		ModelAndView modelAndView = new ModelAndView("redirect:/admin/users/all");
 		modelAndView.addObject("rule", new User());
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());

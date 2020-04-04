@@ -46,8 +46,8 @@
             </span>
                 </a>
             </li>
-            <li class="treeview">
-                <a th:href="@{/users/all}">
+            <li th:if="${control == 'ADMIN'}" class="treeview">
+                <a th:href="@{/admin/users/all}">
                     <i class="fa fa-users text-green"></i>
                     <span>All Users</span>
                 </a>
