@@ -5,6 +5,7 @@ package com.app.kpitracker.controller;
  */
 
 
+import com.app.kpitracker.model.Task;
 import com.app.kpitracker.model.User;
 import com.app.kpitracker.model.UserTask;
 import com.app.kpitracker.service.TaskService;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user-task")
@@ -39,15 +42,29 @@ public class UserTaskController {
 
 	@RequestMapping(value = "/new", method = RequestMethod.GET)
 	public ModelAndView newUserTask() {
+		List<Task> unassignedTasksList= findUnassignedTasks();
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("user_task", new UserTask());
 		modelAndView.addObject("users", userService.findAll());
-		modelAndView.addObject("tasks", taskService.findAll());
+		modelAndView.addObject("tasks", unassignedTasksList);
+		//modelAndView.addObject("tasks", taskService.findAll());
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
 		modelAndView.addObject("mode", "MODE_NEW");
 		modelAndView.setViewName("user_task");
 		return modelAndView;
+	}
+
+	private List<Task> findUnassignedTasks() {
+		List<Task> tasks = new ArrayList<>();
+		List<Task> userTasksforView = new ArrayList<>();
+		tasks = taskService.findAll();
+		for(Task t:tasks){
+			if(t.getUserTask()!=null && t.getUserTask().size()<1){
+				userTasksforView.add(t);
+			}
+		}
+		return userTasksforView;
 	}
 
 	/*@RequestMapping(value = "/all", method = RequestMethod.GET)
