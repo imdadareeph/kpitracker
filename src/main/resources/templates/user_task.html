@@ -72,10 +72,10 @@
                                             <td th:text="${usertask.user.name}"></td>
                                             <td th:text="${usertask.task.name}"></td>
                                             <td><a
-                                                    th:href="@{/admin/user-task/update(id=${usertask.id})}"><span
+                                                    th:href="@{/user-task/update(id=${usertask.id})}"><span
                                                     class="glyphicon glyphicon-pencil"></span> EDIT</a></td>
                                             <td><a
-                                                    th:href="@{/admin/user-task/delete(id=${usertask.id})}"><span
+                                                    th:href="@{/user-task/delete(id=${usertask.id})}"><span
                                                     class="glyphicon glyphicon-trash"></span> DELETE</a></td>
                                         </tr>
                                         </tbody>
@@ -94,7 +94,7 @@
                 <div class="container">
                     <div class="row">
                         <form autocomplete="off" action="#"
-                              th:action="@{/admin/user-task/save}" action="#"
+                              th:action="@{/user-task/save}" action="#"
                               th:object="${user_task}" method="post" class="form-horizontal"
                               role="form">
                             <fieldset>
@@ -147,7 +147,7 @@
                 <div class="container">
                     <div class="row">
                         <form autocomplete="off" action="#"
-                              th:action="@{/admin/user-task/save}" action="#"
+                              th:action="@{/user-task/save}" action="#"
                               th:object="${user_task}" method="post" class="form-horizontal"
                               role="form">
                             <fieldset>

@@ -4,7 +4,9 @@ package com.app.kpitracker.controller;
  * Created by Imdad Areeph
  */
 
+import com.app.kpitracker.model.Task;
 import com.app.kpitracker.model.User;
+import com.app.kpitracker.service.TaskService;
 import com.app.kpitracker.service.UserService;
 import com.app.kpitracker.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import javax.validation.Valid;
 @RequestMapping("/myprofile")
 public class UserPageController {
 
+	@Autowired
+	private TaskService taskService;
 
 	@Autowired
 	private UserService userService;
@@ -88,6 +92,18 @@ public class UserPageController {
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
 		modelAndView.setViewName("user_profile");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public ModelAndView updateTask(@RequestParam int id) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("rule", new Task());
+		modelAndView.addObject("task", taskService.findTask(id));
+		modelAndView.addObject("auth", getUser());
+		modelAndView.addObject("control",getUser().getRole().getRole());
+		modelAndView.addObject("mode", "MODE_UPDATE");
+		modelAndView.setViewName("task");
 		return modelAndView;
 	}
 

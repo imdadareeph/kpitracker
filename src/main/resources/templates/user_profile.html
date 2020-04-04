@@ -154,6 +154,7 @@
 											<th>Task Description</th>
 											<th>Task Date-Created</th>
 											<th>Task Status(Finished)</th>
+											<th></th>
 										</tr>
 										</thead>
 										<tbody>
@@ -162,6 +163,8 @@
 											<td th:text="${tasks.task.description}"></td>
 											<td th:text="${tasks.task.dateCreated}"></td>
 											<td th:text="${tasks.task.finished}"></td>
+											<td><a th:href="@{/tasks/update(id=${tasks.task.id})}"><span
+													class="glyphicon glyphicon-pencil"></span> EDIT</a></td>
 										</tr>
 										</tbody>
 									</table>

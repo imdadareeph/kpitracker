@@ -6,6 +6,7 @@ package com.app.kpitracker.controller;
 
 import com.app.kpitracker.model.Task;
 import com.app.kpitracker.model.User;
+import com.app.kpitracker.model.UserTask;
 import com.app.kpitracker.service.TaskService;
 import com.app.kpitracker.service.UserService;
 import com.app.kpitracker.service.UserTaskService;
@@ -20,12 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 
 
 @Controller
-@RequestMapping("/admin/tasks")
+@RequestMapping("/tasks")
 public class TaskController {
 
 
@@ -54,7 +56,7 @@ public class TaskController {
 	public ModelAndView saveTask(@Valid Task task, BindingResult bindingResult) {
 		task.setDateCreated(new Date());
 		taskService.save(task);
-		ModelAndView modelAndView = new ModelAndView("redirect:/admin/tasks/all");
+		ModelAndView modelAndView = new ModelAndView("redirect:/tasks/all");
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
 		return modelAndView;
@@ -62,10 +64,82 @@ public class TaskController {
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ModelAndView allTasks() {
+		//List<Task> unassignedTasksList= findUnassignedTasks();
+		List<Task> unassignedTasksList2= findUnassignedTasksList();
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("rule", new Task());
-		//POINT=7 http://stackoverflow.com/questions/22364886/neither-bindingresult-nor-plain-target-object-for-bean-available-as-request-attr
-		modelAndView.addObject("tasks", taskService.findAll());
+		if("ADMIN".equalsIgnoreCase(getUser().getRole().getRole())){
+			modelAndView.addObject("tasks", taskService.findAll());
+		}else {
+			modelAndView.addObject("tasks", unassignedTasksList2);
+		}
+		//modelAndView.addObject("tasks", taskService.findAll());
+		modelAndView.addObject("auth", getUser());
+		modelAndView.addObject("control", getUser().getRole().getRole());
+		modelAndView.addObject("mode", "MODE_ALL");
+		modelAndView.setViewName("task");
+		return modelAndView;
+	}
+
+	private List<Task> findUnassignedTasksList() {
+		List<Task> tasks = new ArrayList<>();
+		List<Task> userTasksforView = new ArrayList<>();
+		tasks = taskService.findAll();
+		for(Task t:tasks){
+			if(t.getUserTask()!=null && t.getUserTask().size()<1){
+				userTasksforView.add(t);
+			}
+		}
+		return userTasksforView;
+	}
+
+	private List<Task> findUnassignedTasks() {
+		List<Task> tasks = new ArrayList<>();
+		tasks=taskService.findAll();
+		List<UserTask> userTasks = new ArrayList<>();
+		List<Task> userTasksforView = new ArrayList<>();
+		userTasks = userTaskService.findAll();
+
+		/*List<Integer> taskids = new ArrayList<>();
+		for (UserTask u: userTasks){
+			taskids.add(u.getTask().getId());
+		}*/
+		for(Task t:tasks){
+			if(null!=userTasks && userTasks.size()>0){
+				for(UserTask ut:userTasks){
+					if(t.getId()!=ut.getTask().getId()){
+						userTasksforView.add(t);
+					}
+				}
+			}else{
+				userTasksforView.add(t);
+			}
+
+		}
+		return userTasksforView;
+	}
+
+	@RequestMapping(value = "/saveupdate", method = RequestMethod.POST)
+	public ModelAndView saveupdate(@Valid Task task, BindingResult bindingResult) {
+		task.setDateCreated(new Date());
+		taskService.save(task);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("rule", new User());
+		modelAndView.addObject("user", getUser());
+		modelAndView.addObject("usertasks", userTaskService.findByUser(userService.findUser(getUser().getId())));
+		modelAndView.addObject("mode", "MODE_TASKS");
+		modelAndView.addObject("auth", getUser());
+		modelAndView.addObject("control", getUser().getRole().getRole());
+		modelAndView.setViewName("user_profile");
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/tasklist", method = RequestMethod.GET)
+	public ModelAndView myAllTasks(@RequestParam int id) {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("rule", new Task());
+		modelAndView.addObject("tasks", taskService.findAllTasks(id));
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
 		modelAndView.addObject("mode", "MODE_ALL");
@@ -87,7 +161,7 @@ public class TaskController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView deleteTask(@RequestParam int id) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/admin/tasks/all");
+		ModelAndView modelAndView = new ModelAndView("redirect:/tasks/all");
 		modelAndView.addObject("rule", new Task());
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());

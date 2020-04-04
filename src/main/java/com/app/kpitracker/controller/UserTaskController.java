@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/admin/user-task")
+@RequestMapping("/user-task")
 public class UserTaskController {
 
 
@@ -50,7 +50,7 @@ public class UserTaskController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public ModelAndView allUserTasks() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("rule", new UserTask());
@@ -62,11 +62,11 @@ public class UserTaskController {
 		modelAndView.addObject("mode", "MODE_ALL");
 		modelAndView.setViewName("user_task");
 		return modelAndView;
-	}
+	}*/
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView saveUserTask(@Valid UserTask userTask, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/admin/user-task/all");
+		ModelAndView modelAndView = new ModelAndView("redirect:/myprofile/mytasks?id="+getUser().getId());
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
 		userTaskService.save(userTask);
@@ -89,7 +89,7 @@ public class UserTaskController {
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public ModelAndView deleteUserTask(@RequestParam int id) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/admin/user-task/all");
+		ModelAndView modelAndView = new ModelAndView("redirect:/user-task/all");
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
 		userTaskService.delete(id);

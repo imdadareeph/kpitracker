@@ -24,6 +24,14 @@ public class TaskService {
 		tasks = taskRepository.findAll();
 		return tasks;
 	}
+
+	public List<Task> findAllTasks(int id){
+		List<Task> tasks = new ArrayList<>();
+		List<Integer> ids =new ArrayList<>();
+		ids.add(id);
+		tasks = taskRepository.findAll(ids);
+		return tasks;
+	}
 	
 	public Task findTask(int id){
 		return taskRepository.findOne(id);

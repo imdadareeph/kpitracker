@@ -77,11 +77,11 @@
                                             <td th:text="${task.description}"></td>
                                             <td th:text="${task.dateCreated}"></td>
                                             <td th:text="${task.finished}"></td>
-                                            <td><a th:href="@{/admin/tasks/update(id=${task.id})}"><span
+                                            <td><a th:href="@{/tasks/update(id=${task.id})}"><span
                                                     class="glyphicon glyphicon-pencil"></span> EDIT</a></td>
-                                            <td><a th:href="@{/admin/tasks/delete(id=${task.id})}"><span
+                                            <td><a th:href="@{/tasks/delete(id=${task.id})}"><span
                                                     class="glyphicon glyphicon-trash"></span> DELETE</a></td>
-                                            <td><a th:href="@{/admin/tasks/per_inf(id=${task.id})}"><span
+                                            <td><a th:href="@{/tasks/per_inf(id=${task.id})}"><span
                                                     class="glyphicon glyphicon-user"></span> INF</a></td>
                                         </tr>
                                         </tbody>
@@ -99,7 +99,7 @@
             <div th:if="${mode == 'MODE_UPDATE'}">
                 <div class="container">
                     <div class="row">
-                        <form autocomplete="off" action="#" th:action="@{/admin/tasks/save}"
+                        <form autocomplete="off" action="#" th:action="@{/tasks/saveupdate}"
                               th:object="${task}" method="post" class="form-horizontal"
                               role="form">
                             <fieldset>
@@ -159,7 +159,7 @@
             <div th:if="${mode == 'MODE_NEW'}">
                 <div class="container">
                     <div class="row">
-                        <form autocomplete="off" action="#" th:action="@{/admin/tasks/save}"
+                        <form autocomplete="off" action="#" th:action="@{/tasks/save}"
                               th:object="${task}" method="post" class="form-horizontal"
                               role="form">
                             <fieldset>
