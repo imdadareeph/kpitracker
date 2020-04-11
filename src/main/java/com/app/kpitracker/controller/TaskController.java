@@ -131,7 +131,28 @@ public class TaskController {
 		modelAndView.addObject("mode", "MODE_TASKS");
 		modelAndView.addObject("auth", getUser());
 		modelAndView.addObject("control", getUser().getRole().getRole());
+		//modelAndView = getModelAndView(task, modelAndView);
 		modelAndView.setViewName("user_profile");
+		return modelAndView;
+	}
+
+	private ModelAndView getModelAndView(@Valid Task task, ModelAndView modelAndView) {
+		if("ADMIN".equalsIgnoreCase(getUser().getRole().getRole())){
+			modelAndView = getModelAndViewForUpdate(task, modelAndView);
+		}else{
+			modelAndView = getModelAndViewForUpdate(task, modelAndView);
+		}
+		return modelAndView;
+	}
+
+	private ModelAndView getModelAndViewForUpdate(@Valid Task task, ModelAndView modelAndView) {
+		if(null!=task && null!=task.getUserTask() && task.getUserTask().size()>0){
+			modelAndView.setViewName("user_profile");
+		}else{
+			modelAndView = new ModelAndView("redirect:/tasks/all");
+			modelAndView.addObject("auth", getUser());
+			modelAndView.addObject("control", getUser().getRole().getRole());
+		}
 		return modelAndView;
 	}
 

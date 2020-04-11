@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -38,6 +39,15 @@ public class AdminTaskController {
         modelAndView.addObject("control", getUser().getRole().getRole());
         modelAndView.addObject("mode", "MODE_ALL");
         modelAndView.setViewName("user_task");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public ModelAndView deleteUserTask(@RequestParam int id) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/admin/user-task/all");
+        modelAndView.addObject("auth", getUser());
+        modelAndView.addObject("control", getUser().getRole().getRole());
+        userTaskService.delete(id);
         return modelAndView;
     }
 

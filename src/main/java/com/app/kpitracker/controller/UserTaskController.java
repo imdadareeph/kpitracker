@@ -83,11 +83,20 @@ public class UserTaskController {
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView saveUserTask(@Valid UserTask userTask, BindingResult bindingResult) {
-		ModelAndView modelAndView = new ModelAndView("redirect:/myprofile/mytasks?id="+getUser().getId());
-		modelAndView.addObject("auth", getUser());
-		modelAndView.addObject("control", getUser().getRole().getRole());
 		userTaskService.save(userTask);
-		return modelAndView;
+		if("ADMIN".equalsIgnoreCase(getUser().getRole().getRole())){
+			ModelAndView modelAndView = new ModelAndView("redirect:/tasks/all");
+			modelAndView.addObject("auth", getUser());
+			modelAndView.addObject("control", getUser().getRole().getRole());
+			return modelAndView;
+		}
+		else{
+			ModelAndView modelAndView = new ModelAndView("redirect:/myprofile/mytasks?id="+getUser().getId());
+			modelAndView.addObject("auth", getUser());
+			modelAndView.addObject("control", getUser().getRole().getRole());
+			return modelAndView;
+		}
+
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)

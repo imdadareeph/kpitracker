@@ -163,7 +163,7 @@
                                         <select class="selectpicker" data-live-search="true"
                                                 title="Select User" name="user" tabindex="-98">
 
-                                            <option th:each="user: ${users}" th:if="${user.name==auth.name}" th:value="${user.id}"
+                                            <option th:each="user: ${users}"  th:value="${user.id}"
                                                     th:text="${user.name}"></option>
                                         </select>
                                     </div>
