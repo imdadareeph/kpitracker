@@ -1,6 +1,8 @@
 # kpitracker
 kpitracker
 
+[![codecov](https://codecov.io/gh/imdadareeph/kpitracker/branch/master/graph/badge.svg?token=7DLDEBXSRJ)](https://codecov.io/gh/imdadareeph/kpitracker)
+
 ## Environment for Development
  Those projects were developed with followings.
 
@@ -25,3 +27,5 @@ INSERT INTO `role` VALUES (2,'USER');
  ![alt text](https://raw.githubusercontent.com/imdadareeph/kpitracker/master/src/main/resources/static/screenshots/home.png "preview1")
   ![alt text](https://raw.githubusercontent.com/imdadareeph/kpitracker/master/src/main/resources/static/screenshots/users.png "preview2")
   ![alt text](https://raw.githubusercontent.com/imdadareeph/kpitracker/master/src/main/resources/static/screenshots/h2db.png "preview3")
+
+
